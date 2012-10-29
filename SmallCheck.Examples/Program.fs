@@ -5,8 +5,7 @@ open SmallCheck.Examples
 TypeClass.InstallSerialInstances<SerialInstances>()
 TypeClass.InstallTestableInstances<TestableInstances>()
 
+//Run examples
 Listy.run()
 Numerical.run()
-
-let _ = System.Console.ReadLine()
 

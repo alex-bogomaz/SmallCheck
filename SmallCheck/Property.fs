@@ -60,6 +60,10 @@ module Property =
     let exists f = thereExists series f
 
     let exists1 f = thereExists1 series f
+
+    let existsDeeperBy f = thereExists (f >> series)
+
+    let exists1DeeperBy f = thereExists1 (f >> series)
     
     let condition cond x =        
         if cond then 
