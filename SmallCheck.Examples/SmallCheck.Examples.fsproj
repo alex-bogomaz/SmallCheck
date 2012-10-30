@@ -42,8 +42,9 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Numerical.fs" />
     <Compile Include="Listy.fs" />
+    <Compile Include="Logical.fs" />
+    <Compile Include="Numerical.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

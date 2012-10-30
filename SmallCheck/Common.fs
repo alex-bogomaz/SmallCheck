@@ -1,6 +1,6 @@
 ﻿namespace SmallCheck
 
-module internal Common =
+module Common =
     let constFunc a _ = a
 
     let uncurry f = fun (a, b) -> f a b

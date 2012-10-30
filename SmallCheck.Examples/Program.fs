@@ -9,3 +9,5 @@ TypeClass.InstallTestableInstances<TestableInstances>()
 Listy.run()
 Numerical.run()
 
+TypeClass.InstallSerialInstances<Logical.SerialInstances>()
+Logical.run()

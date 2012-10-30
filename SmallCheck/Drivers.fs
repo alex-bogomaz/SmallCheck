@@ -33,15 +33,13 @@ module Drivers =
             if (notMeet > 0) then putLine ("  But " + notMeet.ToString() + " did not meet ==> condition.")
 
         ok           
-
-
-    //TODO: rewrite this without recursion
+    
     let iterCheck lower upper t = 
         let rec iter d = 
-            putLine ("Depth " + d.ToString() + ":")            
+            putLine ("Depth " + d.ToString() + ":")
             let ok = check (test t d)
             if ok && d < upper then 
-                iter (d+1)            
+                iter (d+1)
         iter lower
 
     let smallCheck d p = iterCheck 0 d p
