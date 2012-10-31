@@ -65,12 +65,10 @@ module Property =
 
     let exists1DeeperBy f = thereExists1 (f >> series)
     
-    let condition cond x =        
+    let (==>) cond x =        
         if cond then 
             Property (test x)
         else
             let nothing = seq { yield TestCase(Inappropriate, []) }
             Property (constFunc nothing)
-
-    let (==>) cond x = condition cond x    
 

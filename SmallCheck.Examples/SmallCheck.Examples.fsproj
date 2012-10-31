@@ -42,6 +42,8 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryTries.fs" />
+    <Compile Include="Circuits.fs" />
     <Compile Include="Listy.fs" />
     <Compile Include="Logical.fs" />
     <Compile Include="Numerical.fs" />
