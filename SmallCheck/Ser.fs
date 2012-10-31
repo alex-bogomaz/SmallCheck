@@ -9,20 +9,17 @@ module Ser =
     let coseries<'a, 'b> =
         TypeClass.Coseries<'a, 'b>()
 
-    let concat (s1 : int -> seq<'a>) (s2 : int -> seq<'a>) = 
+    let (|||) (s1 : int -> seq<'a>) (s2 : int -> seq<'a>) = 
         fun d -> Seq.append (s1 d) (s2 d)
         
-    let prod (s1 : int -> seq<'a>) (s2 : int -> seq<'b>) = 
+    let (><) (s1 : int -> seq<'a>) (s2 : int -> seq<'b>) = 
         fun d -> 
             seq {
                     for x in s1 d do
                     for y in s2 d do
                         yield (x, y)
                 }
-
-    let (|||) s1 s2 = concat s1 s2
-    let (><) s1 s2 = prod s1 s2
-
+    
     let cons0 c = 
         fun (d : int) -> seq { yield c }
 
@@ -53,11 +50,25 @@ module Ser =
                         yield c x y z
                 }
 
+    let consu3 c =
+        fun d -> 
+            seq { if d > 0 then 
+                    for (x, y, z) in series (d - 1) do 
+                        yield c (x, y, z)
+                }
+
     let cons4 c =
         fun d -> 
             seq { if d > 0 then 
                     for (w, x, y, z) in series (d - 1) do 
                         yield c w x y z
+                }
+
+    let consu4 c =
+        fun d -> 
+            seq { if d > 0 then 
+                    for (w, x, y, z) in series (d - 1) do 
+                        yield c (w, x, y, z)
                 }
 
     let alts0 rs d = rs d

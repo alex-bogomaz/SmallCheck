@@ -6,7 +6,10 @@ open Ser
 open Property
 
 module Drivers = 
-    let putLine (s : string) =
+    let putStr (s : string) =
+        Console.Write(s)
+
+    let putStrLn (s : string) =
         Console.WriteLine(s)
     
     let check (rs : seq<TestCase>) =
@@ -22,21 +25,21 @@ module Drivers =
             elif res.Result = Pass then
                 n <- n + 1
             else
-                putLine ("  Failed test no. " + (n + 1).ToString() + ". Test values follow.")
-                res.Arguments 
-                |> List.iter (fun a -> putLine ("  " + a.ToString())) //TODO: show functions. Show arguments in one line
+                putStrLn ("  Failed test no. " + (n + 1).ToString() + ". Test values follow.")
+                for a in res.Arguments do
+                    putStr ("  " + a.ToString()) //TODO: show functions. Show arguments in one line                
                 ok <- false
         
         if ok then        
-            putLine ("  Completed " + n.ToString() + " test(s)")
-            putLine (if ok then " without failure." else ".")
-            if (notMeet > 0) then putLine ("  But " + notMeet.ToString() + " did not meet ==> condition.")
+            putStrLn ("  Completed " + n.ToString() + " test(s)")
+            putStrLn (if ok then " without failure." else ".")
+            if (notMeet > 0) then putStrLn ("  But " + notMeet.ToString() + " did not meet ==> condition.")
 
         ok           
     
     let iterCheck lower upper t = 
         let rec iter d = 
-            putLine ("Depth " + d.ToString() + ":")
+            putStrLn ("Depth " + d.ToString() + ":")
             let ok = check (test t d)
             if ok && d < upper then 
                 iter (d+1)

@@ -11,3 +11,10 @@ Numerical.run()
 
 TypeClass.InstallSerialInstances<Logical.SerialInstances>()
 Logical.run()
+
+TypeClass.InstallSerialInstances<BinaryTries.SerialInstances>()
+BinaryTries.run()
+
+BitAdd.run()
+
+let z = 111
