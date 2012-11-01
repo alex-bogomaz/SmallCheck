@@ -10,5 +10,4 @@ module Common =
     let uncurry3 f = fun (a, b, c, d) -> f a b c d
 
     let seqOr xs = Seq.fold (fun x y -> x || y) true xs
-
-
+    
