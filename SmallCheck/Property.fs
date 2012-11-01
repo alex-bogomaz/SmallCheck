@@ -19,7 +19,7 @@ module Property =
             seq {
                 for x in ser d do                    
                 for r in test (f x) d do
-                    yield TestCase(r.Result, x.ToString() :: r.Arguments)
+                    yield TestCase(r.Result, Display.Show x :: r.Arguments)
             }
         Property(res)
 

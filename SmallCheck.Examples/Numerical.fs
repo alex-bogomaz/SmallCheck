@@ -32,8 +32,8 @@ module Numerical =
     let primes2 n =
         let product xs = List.fold (fun x y -> x * y) 1u xs 
         let power (p, (e : uint32)) = product (List.replicate (int e) p)
-        let expProp (exponents111 : seq<uint32>) =
-            let exponents = Seq.toList exponents111
+        let expProp (expsSeq : seq<uint32>) =
+            let exponents = Seq.toList expsSeq
             let firstPrimes = Seq.take exponents.Length primes |> Seq.toList
             (exponents = [] || (List.rev exponents).Head <> 0u) && n = product (List.zip firstPrimes exponents |> List.map power)
 

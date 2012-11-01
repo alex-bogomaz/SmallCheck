@@ -5,13 +5,13 @@ open Testable
 open Ser
 open Property
 
-module Drivers = 
+module Drivers =     
     let putStr (s : string) =
         Console.Write(s)
 
     let putStrLn (s : string) =
         Console.WriteLine(s)
-    
+                
     let check (rs : seq<TestCase>) =
         let mutable n = 0
         let mutable notMeet = 0
@@ -27,11 +27,11 @@ module Drivers =
             else
                 putStrLn ("  Failed test no. " + (n + 1).ToString() + ". Test values follow.")
                 for a in res.Arguments do
-                    putStr ("  " + a.ToString()) //TODO: show functions. Show arguments in one line                
+                    putStrLn a
                 ok <- false
         
         if ok then        
-            putStrLn ("  Completed " + n.ToString() + " test(s)")
+            putStr ("  Completed " + n.ToString() + " test(s)")
             putStrLn (if ok then " without failure." else ".")
             if (notMeet > 0) then putStrLn ("  But " + notMeet.ToString() + " did not meet ==> condition.")
 
