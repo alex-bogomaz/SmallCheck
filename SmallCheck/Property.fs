@@ -6,8 +6,9 @@ open Testable
 open System
 
 module Property =    
-    type Property(depthTest : int -> seq<TestCase>) =
-        member this.DepthTest = depthTest
+    type Property = 
+        | Property of (int -> seq<TestCase>)
+        //member this.DepthTest = depthTest
 
     let test<'a> =
         TypeClass.Test<'a>()

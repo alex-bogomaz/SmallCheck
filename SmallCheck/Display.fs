@@ -27,7 +27,7 @@ type Display() =
         if isFunc r then 
             showFunc r i
         else
-            ident i + (r.ToString())
+            ident i + (r.ToString()) //TODO: display discriminated unions
 
     static member Show r = show r 0
                     
