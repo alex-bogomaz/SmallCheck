@@ -14,13 +14,12 @@ type TestableInstances =
     static member Func() = 
         { new Testable<'a -> 'b> with
             member this.test f d = 
-                let prop = forAll series f
-                prop.DepthTest d
+                let (Property p) = forAll series f
+                p d
         }
 
     static member Property() = 
         { new Testable<Property> with
-            member this.test prop d = 
-                prop.DepthTest d
+            member this.test (Property p) d = p d
         }
    

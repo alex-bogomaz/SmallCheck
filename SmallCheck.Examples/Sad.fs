@@ -1,15 +1,11 @@
 ﻿namespace SmallCheck.Examples
 
 open System
+open SmallCheck.Common
 open SmallCheck.Property
 open SmallCheck.Drivers
 
 module Sad =
-    let rec zipWith f xs ys =
-        match xs, ys with
-        | h :: t, h' :: t' -> f h h' :: zipWith f t t'
-        | _                -> []
-
     let sad xs ys = 
         zipWith (-) xs ys
         |> List.map abs
