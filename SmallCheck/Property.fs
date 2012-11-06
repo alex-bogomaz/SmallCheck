@@ -5,22 +5,35 @@ open Ser
 open Testable 
 open System
 
+
+
 module Property =    
     type Property = 
-        | Property of (int -> seq<TestCase>)
-        //member this.DepthTest = depthTest
+        | Property of (int -> seq<TestCase>)        
 
     let test<'a> =
         TypeClass.Test<'a>()
 
-    let property t = Property (test t)
-   
-    let forAll (ser : int -> seq<'a>) f =        
+    type InvocationResult =
+        | Ok of seq<TestCase>
+        | Exception of Exception
+
+    let safeTest f x d =
+        try
+            Ok (test (f x) d)
+        with ex ->                
+            Exception ex
+    
+    let forAll (ser : int -> seq<'a>) f =                
         let res d = 
             seq {
-                for x in ser d do                    
-                for r in test (f x) d do
-                    yield TestCase(r.Result, Display.Show x :: r.Arguments)
+                for x in ser d do      
+                    match safeTest f x d with
+                    | Ok results -> 
+                        for r in results do yield TestCase(r.Result, x.ToString() :: r.Arguments)
+                    | Exception ex -> 
+                        yield TestCase(TestResult.Exception ex, [ x.ToString() ])
+                    
             }
         Property(res)
 
