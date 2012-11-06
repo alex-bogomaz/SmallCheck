@@ -11,6 +11,13 @@ module Drivers =
 
     let putStrLn (s : string) =
         Console.WriteLine(s)
+
+    let printArguments (res : TestCase) =
+        for a in res.Arguments do putStrLn a
+
+    let printException ex =
+        putStrLn ("  Exception information follow.") //TODO: print inner exceptions
+        putStrLn ("  "+ ex.ToString())
                 
     let check (rs : seq<TestCase>) =
         let mutable n = 0
@@ -18,16 +25,20 @@ module Drivers =
         let mutable ok = true        
         use iter = rs.GetEnumerator()
         while ok && iter.MoveNext() do
-            let res = iter.Current            
-            if res.Result = Inappropriate then              
+            let res = iter.Current
+            match res.Result with            
+            | Inappropriate ->
                 n <- n + 1
                 notMeet <- notMeet + 1
-            elif res.Result = Pass then
-                n <- n + 1
-            else
+            | Pass -> n <- n + 1
+            | Fail ->
                 putStrLn ("  Failed test no. " + (n + 1).ToString() + ". Test values follow.")
-                for a in res.Arguments do
-                    putStrLn a
+                printArguments res
+                ok <- false
+            | TestResult.Exception ex ->            
+                putStrLn ("  Exception in test no. " + (n + 1).ToString() + ". Test values follow.")
+                printArguments res
+                printException ex
                 ok <- false
         
         if ok then        

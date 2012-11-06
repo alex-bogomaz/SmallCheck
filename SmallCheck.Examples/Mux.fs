@@ -5,6 +5,7 @@ open SmallCheck.Common
 open SmallCheck.Property
 open SmallCheck.Drivers
 
+//TODO: not finished yet
 module Mux = 
     let rec transpose (xs : 'a list list) =
         if xs.Head <> [] then

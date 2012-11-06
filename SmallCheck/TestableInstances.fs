@@ -10,6 +10,11 @@ type TestableInstances =
         { new Testable<bool> with
             member this.test b _ = seq { yield TestCase(boolToResult b, [])  }
         }
+
+    static member Unit() = 
+        { new Testable<unit> with
+            member this.test b _ = seq { yield TestCase(Pass, [])  }
+        }
     
     static member Func() = 
         { new Testable<'a -> 'b> with

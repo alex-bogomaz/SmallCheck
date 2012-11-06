@@ -5,7 +5,8 @@ open SmallCheck.Examples
 TypeClass.InstallSerialInstances<SerialInstances>()
 TypeClass.InstallTestableInstances<TestableInstances>()
 
-//Run examples
+
+//Examples from Haskell Smallcheck
 Listy.run()
 Numerical.run()
 
@@ -17,3 +18,6 @@ BinaryTries.run()
 
 BitAdd.run()
 Sad.run()
+
+//Exception examples
+Exceptions.run()

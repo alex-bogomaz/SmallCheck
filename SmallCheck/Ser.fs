@@ -82,6 +82,9 @@ module Ser =
         let toConst r _ _ = r
         if d > 0 then             
             coseries (coseries rs) (d - 1)
-        else rs d |> Seq.map toConst        
+        else rs d |> Seq.map toConst
+        
+    let depth d d' =
+        if d >= 0 then d' + 1 - d else failwith "argument < 0"     
 
 
