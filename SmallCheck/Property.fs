@@ -5,8 +5,6 @@ open Ser
 open Testable 
 open System
 
-
-
 module Property =    
     type Property = 
         | Property of (int -> seq<TestCase>)        
@@ -30,9 +28,9 @@ module Property =
                 for x in ser d do      
                     match safeTest f x d with
                     | Ok results -> 
-                        for r in results do yield TestCase(r.Result, x.ToString() :: r.Arguments)
+                        for r in results do yield TestCase(r.Result, Display.Show x :: r.Arguments)
                     | Exception ex -> 
-                        yield TestCase(TestResult.Exception ex, [ x.ToString() ])
+                        yield TestCase(TestResult.Exception ex, [ Display.Show x ])
                     
             }
         Property(res)
@@ -46,8 +44,8 @@ module Property =
             let resultIsOk (tc : TestCase) = not (tc.Result = Fail)        
             let witnesses =            
                 [ for x in ser d do                
-                    if Seq.forall resultIsOk (test (f x) d) then
-                        yield x.ToString()
+                    if Seq.forall resultIsOk (test (f x) d) then //TODO: may 'test' throw and exception here?
+                        yield Display.Show x
                 ]
             let valid = 
                 let len = witnesses.Length 
