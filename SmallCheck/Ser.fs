@@ -71,20 +71,38 @@ module Ser =
                         yield c (w, x, y, z)
                 }
 
+    let dec d =
+        if d > 0 then d - 1 else failwith "argument <= 0"
+
     let alts0 rs d = rs d
     
     let alts1 rs d = 
         if d > 0 then
-            coseries rs (d - 1)
+            coseries rs (dec d)
         else rs d |> Seq.map constFunc
     
     let alts2 rs d = 
         let toConst r _ _ = r
         if d > 0 then             
-            coseries (coseries rs) (d - 1)
+            coseries (coseries rs) (dec d)
         else rs d |> Seq.map toConst
+    
+    let alts3 rs d = 
+        let toConst r _ _ _ = r
+        if d > 0 then 
+            coseries (coseries (coseries rs)) (dec d)
+        else 
+            rs d |> Seq.map toConst
+
+    let alts4 rs d = 
+        let toConst r _ _ _ _ = r
+        if d > 0 then 
+            coseries (coseries (coseries (coseries rs))) (dec d)
+        else 
+            rs d |> Seq.map toConst            
         
     let depth d d' =
         if d >= 0 then d' + 1 - d else failwith "argument < 0"     
+    
 
 
