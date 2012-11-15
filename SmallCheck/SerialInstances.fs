@@ -145,7 +145,16 @@ type SerialInstances =
     static member Func() = 
         { new Serial<'a -> 'b> with
             member this.series d = coseries series d       
-            member this.coseries rs d  = null //TODO: implement coseries for functions
+            member this.coseries rs d  =
+                let args = series d |> Seq.toList
+                let rec nest xs _ = 
+                    match xs with
+                    | []     -> rs d |> Seq.map (fun c -> fun [] -> c)
+                    | h :: t -> coseries (nest t) d |> Seq.map (fun f -> fun (b :: bs) -> f b bs)
+
+                nest args d 
+                |> Seq.toList
+                |> List.map (fun g -> fun f -> g (List.map f args)) |> List.toSeq
         }
 
 
