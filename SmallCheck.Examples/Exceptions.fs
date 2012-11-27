@@ -21,6 +21,8 @@ module Exceptions =
         ()
 
     let unitProp (x : int) = ()
+
+    let zeroDivInExists = exists (fun (x : int) -> 1 / x)
     
     let test (s : string) t =
         Console.WriteLine(s + " ===============================")
@@ -33,4 +35,6 @@ module Exceptions =
         test "zeroDiv3" zeroDiv3
         test "zeroDivUnit" zeroDivUnit
         test "unitProp" unitProp
+        test "zeroDivInExists" zeroDivInExists
+        
 
