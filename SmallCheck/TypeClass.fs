@@ -4,10 +4,12 @@ open System
 open System.Reflection
 open System.Collections.Generic
 open Testable
+open Common
 
 type TypeClass() =
     static let mutable serialInstances = new Dictionary<Type, MethodInfo>()
     static let mutable testableInstances = new Dictionary<Type, MethodInfo>()
+    static let mutable instanceImpl = memoize TypeClass.InstanceFactory
 
     static let installInstances (t : Type) (instances : Dictionary<Type, MethodInfo>) = 
         t.GetMethods((BindingFlags.Static ||| BindingFlags.Public))    
@@ -25,19 +27,21 @@ type TypeClass() =
     static member private InstallInstance instances meth =
         let instanceType = meth.ReturnType.GetGenericArguments().[0]        
         instances.Add(typeDef instanceType, meth)
-                           
-    static member private InstanceImpl<'a> (instances : Dictionary<Type, MethodInfo>) =
-        let instanceType = typeof<'a>
+
+    static member private InstanceFactory (instanceType : Type, instances : Dictionary<Type, MethodInfo>) =        
         let instanceTypeDef = typeDef instanceType
         let instanceImplMethod = 
             if instanceType.IsGenericType then 
                 instances.[instanceTypeDef].MakeGenericMethod(instanceType.GetGenericArguments())
             else 
                 instances.[instanceTypeDef]
-                        
-        //TODO: cache instances
+                
         instanceImplMethod.Invoke(null, Array.empty)
-
+                           
+    static member private InstanceImpl<'a> (instances : Dictionary<Type, MethodInfo>) =
+        let instanceType = typeof<'a>              
+        instanceImpl (instanceType, instances)
+    
     static member Series<'a>()  =         
         (TypeClass.InstanceImpl<'a> serialInstances :?> Serial<'a>).series
 

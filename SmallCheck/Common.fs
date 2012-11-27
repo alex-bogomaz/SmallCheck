@@ -1,5 +1,7 @@
 ﻿namespace SmallCheck
 
+open System.Collections.Generic
+
 module Common =
     let constFunc a _ = a
 
@@ -25,4 +27,14 @@ module Common =
         List.toSeq xs
         |> Seq.skip n
         |> Seq.toList
+        
+    let memoize (f : 'a -> 'b) =
+        let t = new Dictionary<_, _>()
+        fun arg ->
+            match t.TryGetValue arg with
+            | true, res -> res
+            | _ ->
+                let res = f arg
+                t.Add(arg, res)
+                res
     
