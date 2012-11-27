@@ -41,23 +41,25 @@ module Property =
 
     let existence unique (ser : int -> seq<'a>) f =        
         let existenceDepth d =             
-            let resultIsOk (tc : TestCase) = not (tc.Result = Fail)        
-            let witnesses =            
-                [ for x in ser d do                
-                    if Seq.forall resultIsOk (test (f x) d) then //TODO: may 'test' throw and exception here?
-                        yield Display.Show x
-                ]
-            let valid = 
-                let len = witnesses.Length 
-                if unique then len = 1 else len > 0
+            let resultIsOk (tc : TestCase) = tc.Result = Pass || tc.Result = Inappropriate
+            try
+                let witnesses =
+                    [ for x in ser d do
+                        if Seq.forall resultIsOk (test (f x) d) then
+                            yield Display.Show x
+                    ]
+                let valid = 
+                    let len = witnesses.Length 
+                    if unique then len = 1 else len > 0
                 
-            let arguments = 
-                if valid then []
-                elif witnesses.Length = 0 then ["non-existence"]
-                //else "non-uniqueness" :: (witnesses.Head :: (witnesses.Tail.Head :: List.empty)) //TODO: !!! no 'take' for lists
-                else "non-uniqueness" :: witnesses
+                let arguments = 
+                    if valid then []
+                    elif witnesses.Length = 0 then ["non-existence"]                
+                    else "non-uniqueness" :: witnesses
                     
-            seq { yield TestCase(boolToResult valid, arguments) }
+                seq { yield TestCase(boolToResult valid, arguments) }
+            with ex ->
+                seq { yield TestCase(TestResult.Exception ex, []) }
 
         Property(existenceDepth)
                 
