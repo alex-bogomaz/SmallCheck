@@ -1,6 +1,8 @@
 # SmallCheck
 F# exhaustive testing framework. Port of Haskell SmallCheck test library
 
+migrated from https://smallcheck.codeplex.com/
+
 Refer to http://hackage.haskell.org/package/smallcheck
 for original Haskell implementation
 
